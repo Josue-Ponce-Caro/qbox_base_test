@@ -12,10 +12,12 @@ from wibotic import packettools
 ENABLE_WIBOTIC = True
 ODROID="BASE"
 qbox_id = 4
+stop_all_threads=False
 # ************************* GLOBAL VARIABLES ************************************************************************************************************
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+# Wibotic Exception ignored. Code must not break
+# 29 is not a valid AdcID
 
     #import pandas as pd
 
@@ -68,10 +70,28 @@ class NetApi:
         # Print all ADC packets and Parameter Updates to the console window
         #print(packettools.process_data(data))
         try:
-            # Print all ADC packets and Parameter Updates to the console window
+            # Print all ADC packets and Parameter Updates to the console windowç
+
+
+# 29 is not a valid AdcID
+# Wibotic Exception ignored. Code must not break
+# ----------------------00000----------------
+# b'\x82\x02\x00\x00U\x02\x00\x00\x01\x000\x07\x00\x00\x02\x00\x02\x00\x00\x00\x03\x00\x14\x00\x00\x00\x0f\x00\x0b\xa9\xb8A\x10\x00\xc1\x12\xbaA\x11\x00m_"B\x12\x00\xe0F\xfaA\x13\x00\x17\xbbW?\x14\x00mqw?\x15\x00\x7fr}?\x1d\x00\xc5\x00\x00\x00\x1e\x00/\x00\x00\x00'
+
+
+
+# b'\x82\x02\x00\x00M\x02\x00\x00\x01\x00\r\x08\x00\x00\x02\x00\x02\x00\x00\x00\x03\x00\x14\x00\x00\x00\x0f\x00\xff\xcd\xb8A\x10\x004&\xbaA\x11\x007<PB\x12\x00\x80\x98\xffA\x13\x00\xe8\x1b)?\x14\x00!\x1cT?\x15\x00\xbe\xeaW?\x1d\x00\xc3\x00\x00\x00\x1e\x000\x00\x00\x00'
+# ____________________________________________
+
+
+
+
+            print("----------------------00000----------------")
+            print(str(packettools.process_data(data)))
+            print("____________________________________________")
             wibotic_data=str(packettools.process_data(data)).splitlines()
             #print(wibotic_data)
-        
+            print("----------------------11111----------------")
             #print(len(wibotic_data))
             Send_Telemetry_Drone_Battery["qbox_id"]=wibotic_data[2].split('.')[1]
             #charge_state=wibotic_data[5].split('=')
@@ -102,7 +122,6 @@ class NetApi:
         
     async def producer(self):
         await asyncio.sleep(1)
-        
         # Send commands to the charger
         print("Changing a parameter...")
         request = packettools.ParamWriteRequest(
