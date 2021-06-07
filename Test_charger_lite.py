@@ -58,13 +58,19 @@ class NetApi:
                 
     async def consumer_handler(self, websocket):
         while True:
+            time.sleep(5)
             message = await websocket.recv()
+            time.sleep(5)
             await self.consumer(message)
+            time.sleep(5)
             
     async def producer_handler(self, websocket):
         while True:
+            time.sleep(5)
             message = await self.producer()
+            time.sleep(5)
             await websocket.send(message)
+            time.sleep(5)
             
     async def consumer(self, data):
         # Print all ADC packets and Parameter Updates to the console window
@@ -84,10 +90,18 @@ class NetApi:
 # ____________________________________________
 
 
+# b'\x82\x02\x00\x00G\x02\x00\x00\x01\x00n\x02\x00\x00\x02\x00\x01\x00\x00\x00\x03\x004\x00\x00\x00\x0f\x00\x88a\xc1A\x10\x00\x84\xc1\xc2A\x11\x00\\|NB\x12\x00\x80m\xebA\x13\x00`\x9f ?\x14\x00\x7f\x07<?\x15\x00"\x88@?\x1d\x00\xb8\x00\x00\x00\x1e\x00-\x00\x00\x00'
+# ____________________________________________
+# b"\x82\x01\x00\x003\x01\x00\x00\x01\x00\xfa\x01\x00\x00\x02\x00\x03\x00\x00\x00\x04\x00\xefZ\x00\x00\x07\x00[\x13\x82>\n\x00\x02\xbe\x18A\x0b\x00\x9c\xb4\xbc>\x0c\x00\x1d\xca\x0eB\r\x00pL\x01@\x0e\x00PH\xedA\x1a\x00\x7f\x7f;B\x1b\x00\xdf'UA\x1c\x00 n\xc3A\x1d\x00\xb7\x00\x00\x00\x1e\x003\x00\x00\x00\x03\x00\x00\x00\x00\x00"
+# ____________________________________________
+# b'\x82\x02\x00\x00\xaf\x02\x00\x00\x01\x00n\x02\x00\x00\x02\x00\x01\x00\x00\x00\x03\x004\x00\x00\x00\x0f\x00\xd0\x9d\xc1A\x10\x00h\xe8\xc2A\x11\x00k9>B\x12\x00@B\xebA\x13\x00~\xfd??\x14\x00\x11\xa1\x81?\x15\x00\x1b\x1b\x84?\x1d\x00\xb8\x00\x00\x00\x1e\x002\x00\x00\x00'
+# ____________________________________________
 
 
-            print("----------------------00000----------------")
-            print(str(packettools.process_data(data)))
+            #print("----------------------00000----------------")
+            time.sleep(2)
+            print(data)
+            print(packettools.process_data(data))
             print("____________________________________________")
             wibotic_data=str(packettools.process_data(data)).splitlines()
             #print(wibotic_data)
@@ -113,22 +127,23 @@ class NetApi:
             print("____________________________________________________________________________")
             time.sleep(10)
         except Exception as err:
-            print(err)
-            print('Wibotic Exception ignored. Code must not break')
-            traceback_msg = traceback.format_exc() 
+            # print(err)
+            # print('Wibotic Exception ignored. Code must not break')
+            # traceback_msg = traceback.format_exc() 
             pass
         except Exception as e:
-            print(e)
+            pass
+            # print(e)      
         
     async def producer(self):
         await asyncio.sleep(1)
         # Send commands to the charger
-        print("Changing a parameter...")
+        # print("Changing a parameter...")
         request = packettools.ParamWriteRequest(
             packettools.DeviceID.TX, 
             packettools.ParamID.ChargeEnable,
             True
-        );
+        )
 
 	       # Example of requesting a parameter value
         #print("Request a parameter value...")
